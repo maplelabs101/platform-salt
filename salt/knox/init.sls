@@ -206,12 +206,13 @@ knox-import_CA:
 
 
 {% set knox_proxy_services = {
-  'dm': knox_home_directory + '/data/services/pnda-deployment-manager/1.0.0/',
-  'pr': knox_home_directory + '/data/services/pnda-package-repository/1.0.0/'
+  'dm': 'pnda-deployment-manager/1.0.0/',
+  'pr':  'pnda-package-repository/1.0.0/',
+  'tsdb': 'opentsdb/2.3.0/'
   } %}
 
 {% for service_name in knox_proxy_services %}
-{% set knox_service_dir = knox_proxy_services[service_name] %}
+{% set knox_service_dir = knox_home_directory + '/data/services/' + knox_proxy_services[service_name] %}
 knox-service_dir_{{ service_name }}:
   file.directory:
     - name: {{ knox_service_dir }}
