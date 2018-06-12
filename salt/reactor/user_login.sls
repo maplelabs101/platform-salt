@@ -7,3 +7,5 @@ reactor-jupyter_user_login:
     - kwarg:
         pillar:
           user: {{ data['data']['user'] }}
+          group: {{ data['data']['group'] }}
+
