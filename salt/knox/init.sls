@@ -141,45 +141,11 @@ knox-set-configuration:
     - require:
       - cmd: knox-init-authentication
 
-{% if knox_authentication == 'pam' %}
-
 knox-enable_pam_login:
   file.managed:
     - name: /etc/shadow
     - group: knox
     - mode: 040
-
-knox-copy_event_login:
-  file.managed:
-    - source: salt://knox/files/event-login.sh.tpl
-    - name: {{ helper_directory }}/event-login.sh
-    - user: knox
-    - group: knox
-    - mode: 740
-    - makedirs: True
-
-knox-sudo_salt_event:
-  file.managed:
-    - source: salt://knox/files/sudoer.tpl
-    - name: /etc/sudoers.d/knox
-    - user: root
-    - group: root
-    - mode: 440
-
-knox-create_login_log:
-  file.managed:
-    - name: /var/log/pnda/login.log
-    - mode: 666
-    - makedirs: True
-
-knox-create_pam_login_rule:
-  file.append:
-    - name: /etc/pam.d/login
-    - text: |
-        auth    required    pam_exec.so    debug log=/var/log/pnda/login.log {{ helper_directory }}/event-login.sh
-
-{% endif %}
-
 
 {% if pillar['knox'] is defined and pillar['knox']['cert'] is defined and pillar['knox']['key'] is defined and pillar['CA'] is defined and pillar['CA']['cert'] is defined %}
 
